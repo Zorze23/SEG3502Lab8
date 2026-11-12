@@ -1,0 +1,91 @@
+<section class="page-heading">
+  <div>
+    <p class="eyebrow">YOUR WORKSPACE</p>
+    <h1>Employee directory</h1>
+    <p class="subtitle">Your team, all in one place.</p>
+  </div>
+
+  <a class="button primary" routerLink="/employee">
+    <span aria-hidden="true">＋</span>
+    Add employee
+  </a>
+</section>
+
+@if (employees.$ | async; as team) {
+  <section class="panel">
+    <div class="panel-heading">
+      <h2>
+        All employees
+        <span class="count">{{ team.length }}</span>
+      </h2>
+      <span class="muted directory-caption">Your team at a glance</span>
+    </div>
+
+    @if (employees.loading) {
+      <div class="empty-state" role="status">
+        <h2>Loading employees…</h2>
+        <p>Getting your directory ready.</p>
+      </div>
+    } @else if (employees.loadError) {
+      <div class="empty-state" role="alert">
+        <h2>Directory unavailable</h2>
+        <p>{{ employees.loadError }}</p>
+        <button
+          class="button primary"
+          type="button"
+          (click)="employees.loadEmployees()"
+        >
+          Try again
+        </button>
+      </div>
+    } @else if (team.length) {
+      <div
+        class="table-scroll"
+        tabindex="0"
+        role="region"
+        aria-label="Employee directory"
+      >
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Name</th>
+              <th scope="col">Date of birth</th>
+              <th scope="col">City</th>
+              <th scope="col">Salary (CAD)</th>
+              <th scope="col">Gender</th>
+              <th scope="col">Email</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            @for (emp of team; track emp.id) {
+              <tr>
+                <td>
+                  <div class="person">
+                    <span class="avatar" aria-hidden="true">
+                      {{ emp.name.charAt(0).toUpperCase() }}
+                    </span>
+                    <strong>{{ emp.name }}</strong>
+                  </div>
+                </td>
+                <td>{{ emp.dateOfBirth | date:'MMM d, y' }}</td>
+                <td>{{ emp.city }}</td>
+                <td class="salary">
+                  {{ emp.salary | currency:'CAD':'symbol-narrow' }}
+                </td>
+                <td>{{ emp.gender || '—' }}</td>
+                <td>{{ emp.email || '—' }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    } @else {
+      <div class="empty-state">
+        <h2>Start with your first employee</h2>
+        <p>Add someone to bring your directory to life.</p>
+        <a class="button primary" routerLink="/employee">Add employee</a>
+      </div>
+    }
+  </section>
+}

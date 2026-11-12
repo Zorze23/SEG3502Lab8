@@ -1,0 +1,146 @@
+<a class="back-link" routerLink="/employees">
+  ← Back to directory
+</a>
+
+<section class="page-heading">
+  <div>
+    <p class="eyebrow">YOUR TEAM</p>
+    <h1>Add an employee</h1>
+    <p class="subtitle">Enter their details to add them to your directory.</p>
+  </div>
+</section>
+
+<section class="panel form-panel">
+  <div class="panel-heading">
+    <div>
+      <h2>Employee details</h2>
+      <p class="muted">Fields marked with * are required.</p>
+    </div>
+  </div>
+
+  <form
+    [formGroup]="employeeForm"
+    (ngSubmit)="onSubmit()"
+    [attr.aria-busy]="saving"
+  >
+    @if (saveError) {
+      <div class="error-banner" role="alert">
+        <strong>Employee wasn’t saved</strong>
+        <p>{{ saveError }}</p>
+        <span>Your entries are still here. Correct the details and try again.</span>
+      </div>
+    }
+
+    <fieldset class="form-fields" [disabled]="saving">
+      <div class="form-grid">
+        <div class="field full-width">
+          <label for="name">Full name *</label>
+          <input
+            id="name"
+            type="text"
+            formControlName="name"
+            placeholder="e.g. Alex Morgan"
+            autocomplete="name"
+            aria-describedby="name-error"
+            [attr.aria-invalid]="name.invalid && name.touched"
+            required
+          >
+
+          @if (name.invalid && name.touched) {
+            <p class="field-error" id="name-error">Enter a name.</p>
+          }
+        </div>
+
+        <div class="field">
+          <label for="dob">Date of birth *</label>
+          <input
+            id="dob"
+            type="date"
+            formControlName="dateOfBirth"
+            aria-describedby="dob-error"
+            [attr.aria-invalid]="dateOfBirth.invalid && dateOfBirth.touched"
+            required
+          >
+
+          @if (dateOfBirth.invalid && dateOfBirth.touched) {
+            <p class="field-error" id="dob-error">Choose a date of birth.</p>
+          }
+        </div>
+
+        <div class="field">
+          <label for="city">City *</label>
+          <input
+            id="city"
+            type="text"
+            formControlName="city"
+            placeholder="e.g. Ottawa"
+            aria-describedby="city-error"
+            [attr.aria-invalid]="city.invalid && city.touched"
+            required
+          >
+
+          @if (city.invalid && city.touched) {
+            <p class="field-error" id="city-error">Enter a city.</p>
+          }
+        </div>
+
+        <div class="field">
+          <label for="salary">Salary (CAD) *</label>
+          <input
+            id="salary"
+            type="number"
+            step="0.01"
+            formControlName="salary"
+            aria-describedby="salary-error"
+            [attr.aria-invalid]="salary.invalid && salary.touched"
+            required
+          >
+
+          @if (salary.invalid && salary.touched) {
+            <p class="field-error" id="salary-error">Enter a salary.</p>
+          }
+        </div>
+
+        <div class="field">
+          <label for="gender">
+            Gender <span class="optional">Optional</span>
+          </label>
+          <select id="gender" formControlName="gender">
+            <option value="">Not specified</option>
+            <option value="M">M</option>
+            <option value="F">F</option>
+            <option value="X">X</option>
+          </select>
+        </div>
+
+        <div class="field full-width">
+          <label for="email">
+            Email address <span class="optional">Optional</span>
+          </label>
+          <input
+            id="email"
+            type="email"
+            formControlName="email"
+            placeholder="alex@example.com"
+            autocomplete="email"
+            aria-describedby="email-error"
+            [attr.aria-invalid]="email.invalid && email.touched"
+          >
+
+          @if (email.invalid && email.touched) {
+            <p class="field-error" id="email-error">
+              Enter a valid email address.
+            </p>
+          }
+        </div>
+      </div>
+    </fieldset>
+
+    <div class="form-actions">
+      <a class="button secondary" routerLink="/employees">Cancel</a>
+      <button class="button primary" type="submit" [disabled]="saving">
+        {{ saving ? 'Saving…' : 'Save employee' }}
+      </button>
+    </div>
+  </form>
+</section>

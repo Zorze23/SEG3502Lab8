@@ -1,0 +1,29 @@
+<header class="topbar">
+  <a class="brand" routerLink="/employees">
+    <span class="brand-icon" aria-hidden="true">p.</span>
+    people
+  </a>
+
+  <nav aria-label="Main navigation">
+    <a
+      routerLink="/employees"
+      routerLinkActive="active"
+      ariaCurrentWhenActive="page"
+    >
+      Directory
+    </a>
+    <a
+      routerLink="/employee"
+      routerLinkActive="active"
+      ariaCurrentWhenActive="page"
+    >
+      Add employee
+    </a>
+  </nav>
+</header>
+
+<main class="workspace">
+  <router-outlet></router-outlet>
+</main>
+
+<footer class="page-footer">People, in one place.</footer>
